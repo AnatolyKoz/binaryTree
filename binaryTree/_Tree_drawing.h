@@ -4,8 +4,7 @@
 #include <set>
 #include "_Tree.h"
 #include "_Tree_traversal.h"
-#include <string>
-#include <iostream>
+
 template<class _Kty, class _Ty>
 class _Tree_drawing : public sf::Drawable, public sf::Transformable{
 public:
@@ -56,7 +55,7 @@ public:
 		// text
 		
 		auto txt = new sf::Text();
-		txt->setString(std::to_string(_node->_Myval));
+		txt->setString(std::to_string(_node->_Mykey));
 	
 		txt->setFillColor(sf::Color(0, 255, 0));
 		txt->setFont(_My_font);
@@ -76,7 +75,6 @@ public:
 		if (level_order_nodes == nullptr) {
 			return;
 		}
-	
 		size_type levels_count = level_order_nodes->size();
 		size_type level_now = 1;
 		for (auto level_ptr : *level_order_nodes) {
@@ -93,7 +91,6 @@ public:
 			}
 			level_now += 1;
 		}
-	 
 	}
 protected:
 	color_type _Color_converter(Redbl redbl) const {

@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 enum _Tree_child {
 	_Right,
 	_Left
@@ -33,7 +32,6 @@ struct _Tree_node {
 	_Tree_node& operator=(const _Tree_node&) = delete;
 
 	_Tree_node() {
-
 	}
 };
 
@@ -42,18 +40,16 @@ class _Tree {
 public:
 	using node_type       = _Tree_node<_Kty, _Ty>;
 	using key_type        = _Kty;
-	using size_type       = unsigned int;
+using size_type       = unsigned int;
 	using value_type      = _Ty;
 	using _Nodeptr        = node_type*;
 	using reference       = value_type&;
 	using const_reference = const value_type&;
-
 public:
 	static _Nodeptr _Max(_Nodeptr _Pnode) noexcept { // return rightmost node in subtree at _Pnode
 		while (_Pnode->_Right !=  nullptr) {
 			_Pnode = _Pnode->_Right;
 		}
-
 		return _Pnode;
 	}
 
@@ -61,7 +57,6 @@ public:
 		while (_Pnode->_Left != nullptr) {
 			_Pnode = _Pnode->_Left;
 		}
-
 		return _Pnode;
 	}
 private:
@@ -258,7 +253,6 @@ public:
 		}
 
 		// _Black without children
-		// fuck
 		auto _Parent = _node->_Parent;
 		
 		
@@ -331,12 +325,13 @@ public:
 						break;
 					}
 
+					// two children black
 					sibling->_Color = Redbl::_Red;
 					if (_N_Parent->_Color == Redbl::_Red) {
 						_N_Parent->_Color = Redbl::_Black;
 						break;
 					}
-					// recursion for father
+					// recursion for Parent
 					_N_Parent->_Color = Redbl::_Black;
 					_N_Node = _N_Parent;
 				}
@@ -362,12 +357,12 @@ public:
 		}
 
 
-	void _Emplace(value_type value) {
+	void _Emplace(key_type key, value_type value) {
 		_Nodeptr _node = new node_type();
 		_node->_Right  = nullptr;
 		_node->_Left   = nullptr;
 		_node->_Parent = nullptr;
-		_node->_Mykey  = value;
+		_node->_Mykey  = key;
 		_node->_Myval  = value;
 		_node->_Color  = Redbl::_Red;
 		_Nodeptr _now_node = _Myhead;
@@ -424,6 +419,25 @@ public:
 			}
 		}
  		
+	}
+
+
+	value_type _Get(key_type _key) {
+		_Nodeptr _now_node = _Myhead;
+
+		while (true) {
+			if (_now_node == nullptr)
+				break;
+			if (_now_node->_Mykey == _key) {
+				return _now_node->_Myval;
+			}
+			if (_now_node->_Mykey > _key) {
+				_now_node = _now_node->_Left;
+			}
+			else {
+				_now_node = _now_node->_Right;
+			}
+		}
 	}
 };
 

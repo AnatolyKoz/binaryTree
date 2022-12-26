@@ -2,6 +2,7 @@
 #include "_Tree.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "_Tree_traversal.h"
 
 
 int main() {
@@ -25,7 +26,10 @@ int main() {
                     std::cout << "add value:";
                     int value;
                     std::cin >> value;
-                    tree->_Emplace(value);
+                    int key;
+                    //std::cout << "add key:";
+                    //std::cin >> key;
+                    tree->_Emplace(value, value);
                 }
 
                 if (event.key.code == sf::Keyboard::D) {
@@ -33,6 +37,41 @@ int main() {
                     int key;
                     std::cin >> key;
                     tree->_Extract(key);
+                }
+
+
+                if (event.key.code == sf::Keyboard::G) {
+                    std::cout << "Find by key:";
+                    int key;
+                    std::cin >> key;
+                    int a = tree->_Get(key);
+                    std::cout << a << "\n";
+                }
+
+                if (event.key.code == sf::Keyboard::Num1) {
+                    std::vector<_Tree_node<int, int>*>* travel = new std::vector<_Tree_node<int, int>*>();
+                   _Tree_traversal<int, int>::_Revers_order(tree->getMyhead(), travel);
+                   std::cout << "Revers order\n";
+                   for (_Tree_node<int, int>* i : *travel) {
+                       std::cout << i->_Myval << "\n";
+                   }
+                }
+
+                if (event.key.code == sf::Keyboard::Num2) {
+                    std::vector<_Tree_node<int, int>*>* travel = new std::vector<_Tree_node<int, int>*>();
+                    _Tree_traversal<int, int>::_Symmetric_order(tree->getMyhead(), travel);
+                    std::cout << "Symetric order\n";
+                    for (_Tree_node<int, int>* i : *travel) {
+                        std::cout << i->_Myval << "\n";
+                    }
+                }
+                if (event.key.code == sf::Keyboard::Num3) {
+                    std::vector<_Tree_node<int, int>*>* travel = new std::vector<_Tree_node<int, int>*>();
+                    _Tree_traversal<int, int>::_Direct_order(tree->getMyhead(), travel);
+                    std::cout << "Direct order\n";
+                    for (_Tree_node<int, int>* i : *travel) {
+                        std::cout << i->_Myval << "\n";
+                    }
                 }
             }
         }
@@ -42,7 +81,7 @@ int main() {
         window.draw(drawer);
 
         window.display();
-
+        
     }
     return 0;
 }

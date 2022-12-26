@@ -2,6 +2,7 @@
 #include "_Tree.h"
 #include <vector>
 #include <iostream>
+
 template<class _Kty, class _Ty>
 class _Tree_traversal {
 public:
@@ -38,7 +39,6 @@ public:
 		return _traversal_set;
 	}
 
-
 	static std::vector<std::vector<_Nodeptr>>* _Level_order(_Treeptr _tree) {
 		_Nodeptr _Head = _tree->getMyhead();
 		if (_Head == nullptr)
@@ -70,9 +70,9 @@ public:
 	static std::vector<_Nodeptr>* _Direct_order (_Nodeptr node, std::vector< _Nodeptr>* _traversal_set) {
 		if (node == nullptr)
 			return nullptr;
-		if (std::vector< _Nodeptr>*_traversal_set == nullptr)
+		if (_traversal_set == nullptr)
 			return nullptr;
-		_traversal_set->push_back(node->_Myval);
+		_traversal_set->push_back(node);
 		if (node->_Left)
 			_Direct_order(node->_Left, _traversal_set);
 		if (node->_Right)
@@ -80,29 +80,30 @@ public:
 		return _traversal_set;
 	}
 
-	static std::vector<_Nodeptr>* _Symmetric_order(_Nodeptr node, std::vector< _Nodeptr>* _traversal_set) {
+	static std::vector<_Nodeptr>* _Symmetric_order(_Nodeptr node, std::vector<_Nodeptr>* _traversal_set) {
 		if (node == nullptr)
 			return nullptr;
-		if (std::vector< _Nodeptr>*_traversal_set == nullptr)
+		if (_traversal_set == nullptr)
 			return nullptr;
 		if (node->_Left)
-			_Direct_order(node->_Left, _traversal_set);
-		_traversal_set->push_back(node->_Myval);
+			_Symmetric_order(node->_Left, _traversal_set);
+		_traversal_set->push_back(node);
 		if (node->_Right)
-			_Direct_order(node->_Right, _traversal_set);
+			_Symmetric_order(node->_Right, _traversal_set);
 		return _traversal_set;
 	}
 
-	static std::vector<_Nodeptr>* _Revers_order(_Nodeptr node, std::vector< _Nodeptr>* _traversal_set) {
+	static std::vector<_Nodeptr>* _Revers_order(_Nodeptr node, std::vector<_Nodeptr>* _traversal_set) {
 		if (node == nullptr)
 			return nullptr;
-		if (std::vector< _Nodeptr>*_traversal_set == nullptr)
+		if (_traversal_set == nullptr)
 			return nullptr;
+
 		if (node->_Left)
-			_Direct_order(node->_Left, _traversal_set);
+			_Revers_order(node->_Left, _traversal_set);
 		if (node->_Right)
-			_Direct_order(node->_Right, _traversal_set);
-		_traversal_set->push_back(node->_Myval);
+			_Revers_order(node->_Right, _traversal_set);
+		_traversal_set->push_back(node);
 		return _traversal_set;
 	}
 };
